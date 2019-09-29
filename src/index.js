@@ -1,12 +1,31 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+import { Provider } from 'react-redux'
+import { createStore } from 'redux'
+import rootReducer from '../src/store/reducers/reducers';
+import postList from '../src/data/post-list';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+const initialState = {
+    posts: postList.posts.map((item) => (
+        {
+            id: item.id,
+            title: item.title,
+            description: item.description,
+            comments: []
+        }
+    ))
+};
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
+const store = createStore(rootReducer, initialState, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
+console.log(initialState);
+console.log(store);
+
+ReactDOM.render(
+    <Provider store={store}>
+        <App />
+    </Provider>,
+    document.getElementById('root')
+);
 serviceWorker.unregister();
