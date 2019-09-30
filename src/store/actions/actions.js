@@ -1,4 +1,4 @@
-import {ADD_COMMENT, DELETE_COMMENT} from "./actionsConst";
+import {ADD_COMMENT, DELETE_COMMENT} from './actionsConst';
 
 export const addComment = (postId, text) => ({
     type: ADD_COMMENT,

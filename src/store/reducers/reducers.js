@@ -1,4 +1,4 @@
-import {ADD_COMMENT, DELETE_COMMENT} from "../actions/actionsConst";
+import {ADD_COMMENT, DELETE_COMMENT} from '../actions/actionsConst';
 
 export default function postsReducer(state, action) {
     switch (action.type) {
@@ -10,7 +10,7 @@ export default function postsReducer(state, action) {
                     item.id === action.postId ? {
                         ...item,
                         comments: [...item.comments, {
-                            id: item.comments.length,
+                            id: state.counter++,
                             text: action.text
                         }]
                     } : item
