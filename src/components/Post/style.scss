@@ -1,0 +1,41 @@
+.post {
+  margin-bottom: 40px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+
+  .post-content {
+    width: 70%;
+  }
+
+  .post-comments {
+    width: 28%;
+
+    .comment-item {
+      margin-bottom: 15px;
+      max-height: 300px;
+      overflow-y: auto;
+
+      p {
+        margin: 0;
+      }
+    }
+
+    .functional-buttons {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 0;
+    }
+  }
+
+  .post-write-comment {
+    width: 100%;
+  }
+
+  .post-content,
+  .post-comments,
+  .post-write-comment {
+    padding: 15px;
+    background-color: aliceblue;
+  }
+}
