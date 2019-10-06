@@ -4,12 +4,12 @@ import {connect} from 'react-redux';
 
 export class Blog extends Component {
   render() {
-    const {posts} = this.props;
+    const {posts, postsId} = this.props;
     return (
         <div className='blog'>
           <div className='container'>
-            {posts.map((post) => (
-                <Post post={post}/>
+            {postsId.map((id) => (
+                <Post post={posts[id]}/>
             ))}
           </div>
         </div>
@@ -19,7 +19,8 @@ export class Blog extends Component {
 
 function mapStateToProps(state) {
   return {
-    posts: state.posts,
+    posts: state.postsState.posts.byIds,
+    postsId: state.postsState.posts.allIds
   }
 }
 
