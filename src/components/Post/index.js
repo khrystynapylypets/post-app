@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import AddComment from '../AddComment';
-import CommentDisplay from '../CommentDisplay';
+import CommentListDisplay from '../CommentListDisplay';
 import './style.scss';
 
 export default class Post extends Component {
@@ -14,18 +14,9 @@ export default class Post extends Component {
             <h1>{title}</h1>
             <p>{description}</p>
           </div>
-          <div className='post-comments'>
-            {comments && comments.map((comment) => (
-                <CommentDisplay
-                    postId={id}
-                    commentId={comment.id}
-                    text={comment.text}
-                    edit={comment.isEdit}
-                />
-            ))}
-          </div>
+          <CommentListDisplay arrCommentsId={comments} postId={id} parentId={null}/>
           <div className='post-write-comment'>
-            <AddComment id={id}/>
+            <AddComment postId={id} parentId={null}/>
           </div>
         </div>
     )

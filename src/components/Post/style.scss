@@ -1,41 +1,54 @@
 .post {
   margin-bottom: 40px;
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
   justify-content: space-between;
 
-  .post-content {
-    width: 70%;
-  }
-
-  .post-comments {
-    width: 28%;
+  .comment-list {
+    max-height: 300px;
+    overflow-y: auto;
 
     .comment-item {
       margin-bottom: 15px;
-      max-height: 300px;
-      overflow-y: auto;
+      background: white;
+      padding: 5px 10px;
+      box-shadow: 9px -3px 8px rgba(0, 0, 0, 0.5);
+
+      &.hide {
+        & + .comment-list {
+          display: none;
+        }
+      }
 
       p {
         margin: 0;
       }
+
+    }
+
+    .comment-list {
+      max-height: none;
+      padding: 0 0 0 15px;
+      overflow: hidden;
     }
 
     .functional-buttons {
       display: flex;
       justify-content: space-between;
       padding: 10px 0;
+      cursor: pointer;
     }
   }
 
-  .post-write-comment {
-    width: 100%;
+  .add-comment {
+    padding: 10px 0;
   }
 
   .post-content,
-  .post-comments,
+  .comment-list,
   .post-write-comment {
     padding: 15px;
+    margin-bottom: 20px;
     background-color: aliceblue;
   }
 }

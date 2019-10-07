@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {addComment, saveComment} from '../../store/actions/index';
+import {addComment, updateComment} from '../../store/actions/index';
 
 export class AddComment extends Component {
 
@@ -22,19 +22,23 @@ export class AddComment extends Component {
 
   submitComment = () => {
     const
-        {id, commentId, addComment, saveComment} = this.props,
+        {postId, commentId, parentId, addComment, updateComment, removeField} = this.props,
         {commentValue} = this.state;
 
     if (commentId === undefined) {
-      addComment(id, commentValue);
+      addComment(postId, parentId, commentValue);
     }
     else {
-      saveComment(id, commentId, commentValue);
+      updateComment(postId, commentId, commentValue);
     }
 
     this.setState({
       commentValue: '',
-    })
+    });
+
+    if (removeField !== undefined) {
+      removeField();
+    }
   };
 
   render() {
@@ -42,7 +46,7 @@ export class AddComment extends Component {
     return (
         <div className='add-comment'>
           <textarea placeholder='New Comment!' onChange={this.commentChange} value={this.state.commentValue}/>
-          <input type='submit' onClick={this.submitComment} />
+          <input type='submit' onClick={this.submitComment}/>
         </div>
     )
   }
@@ -50,7 +54,7 @@ export class AddComment extends Component {
 
 const mapDispatchToProps = {
   addComment,
-  saveComment
+  updateComment
 };
 
 export default connect(null, mapDispatchToProps)(AddComment);

@@ -1,18 +1,10 @@
-import {createStore} from 'redux';
-import rootReducer from './reducers/index';
-import postList from '../../src/data/post-list';
+import {createStore, combineReducers} from 'redux';
+import postReducer from './reducers/postReducer';
 
-const initialState = {
-  posts: postList.posts.map((post) => (
-      {
-        id: post.id,
-        title: post.title,
-        description: post.description,
-        comments: []
-      }
-  )),
-  counter: 0,
-};
+const store = createStore(combineReducers(
+    {
+      postsState: postReducer
+    }),
+    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
 
-const store = createStore(rootReducer, initialState, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
 export default store;
