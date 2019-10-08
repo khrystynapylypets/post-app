@@ -1,72 +1,91 @@
-import React, {Component} from 'react';
-import {connect} from 'react-redux';
-import {deleteComment} from '../../../store/actions/index';
-import AddComment from '../../AddComment';
-import CommentListDisplay from '../index';
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { deleteComment } from '../../../store/actions/index'
+import AddComment from '../../AddComment'
+import CommentListDisplay from '../index'
 
 export class Comment extends Component {
 
   constructor(props) {
-    super(props);
+    super(props)
 
     this.state = {
       addSubComment: false,
       idEditNow: false,
-      hideSubComments: false
+      hideSubComments: false,
     }
   }
 
   handleDeleteComment = () => {
-    const {postId, item: {id}, deleteComment} = this.props;
-    deleteComment(postId, id);
-  };
-
-  handleEditComment = () => {
-    this.setState((prevState) => ({
-      idEditNow: !prevState.idEditNow
-    }));
-  };
+    const { postId, item: { id }, deleteComment } = this.props
+    deleteComment(postId, id)
+  }
 
   handleAddComment = () => {
     this.setState((prevState) => ({
-      addSubComment: !prevState.addSubComment
-    }));
-  };
+      addSubComment: !prevState.addSubComment,
+      hideSubComments: false,
+    }))
+  }
+
+  handleEditComment = () => {
+    this.setState((prevState) => ({
+      idEditNow: !prevState.idEditNow,
+    }))
+  }
 
   hideSubComments = () => {
     this.setState((prevState) => ({
-      hideSubComments: !prevState.hideSubComments
-    }));
-  };
+      hideSubComments: !prevState.hideSubComments,
+    }))
+  }
 
   render() {
-    const {item: {id, text}, arrCommentsId, postId} = this.props,
-        {addSubComment, idEditNow, hideSubComments} = this.state;
-    const hideClass = hideSubComments ? 'hide' : '';
+    const { item: { id, text }, arrCommentsId, postId } = this.props,
+      { addSubComment, idEditNow, hideSubComments } = this.state
+    const hideClass = hideSubComments ? 'hide' : ''
 
     return (
-        <>
-          <div className={`comment-item ${hideClass}`}>
-            {idEditNow ?
-                < AddComment postId={postId} commentId={id} value={text} removeField={this.handleEditComment}/> :
-                <p>{text}</p>}
-            {addSubComment && <AddComment postId={postId} parentId={id} removeField={this.handleAddComment}/>}
-            {!addSubComment && !idEditNow && <div className='functional-buttons'>
-              <div className='close-button' onClick={this.handleDeleteComment}>Delete</div>
-              <div className='edit-button' onClick={this.handleEditComment}>Edit</div>
-              <div className='add-button' onClick={this.handleAddComment}>Add</div>
-              <div className='hide-button' onClick={this.hideSubComments}>Hide</div>
-            </div>
-            }
+      <>
+        <div className={`comment-item ${hideClass}`}>
+          {idEditNow ?
+            <AddComment
+              postId={postId}
+              commentId={id}
+              value={text}
+              removeField={this.handleEditComment}
+            /> :
+            <p>{text}</p>}
+          {addSubComment &&
+          <AddComment
+            postId={postId}
+            parentId={id}
+            removeField={this.handleAddComment}
+          />
+          }
+          {!addSubComment && !idEditNow &&
+          <div className='functional-buttons'>
+            <div className='close-button' onClick={this.handleDeleteComment}>Delete</div>
+            <div className='edit-button' onClick={this.handleEditComment}>Edit</div>
+            <div className='add-button' onClick={this.handleAddComment}>Add</div>
+            <div className='hide-button' onClick={this.hideSubComments}>Hide</div>
           </div>
-          {arrCommentsId && <CommentListDisplay parentId={id} arrCommentsId={arrCommentsId} postId={postId}/>}
-        </>
-    );
+          }
+        </div>
+        {arrCommentsId &&
+        <CommentListDisplay
+          parentId={id}
+          arrCommentsId={arrCommentsId}
+          postId={postId}
+        />
+        }
+      </>
+    )
   }
 }
 
 const mapDispatchToProps = {
-  deleteComment
-};
+  deleteComment,
+}
 
-export default connect(null, mapDispatchToProps)(Comment);
+export default connect(null, mapDispatchToProps)(Comment)

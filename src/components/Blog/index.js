@@ -1,18 +1,21 @@
-import React, {Component} from 'react';
-import Post from '../Post';
-import {connect} from 'react-redux';
+import React, { Component } from 'react'
+import Post from '../Post'
+import AddPost from '../AddPost'
+import { connect } from 'react-redux'
 
 export class Blog extends Component {
   render() {
-    const {posts, postsId} = this.props;
+    const { posts, postsId } = this.props
+
     return (
-        <div className='blog'>
-          <div className='container'>
-            {postsId.map((id) => (
-                <Post post={posts[id]}/>
-            ))}
-          </div>
+      <div className='blog'>
+        <div className='container'>
+          {postsId && postsId.map((id) => (
+            <Post post={posts[id]}/>
+          ))}
+          <AddPost />
         </div>
+      </div>
     )
   }
 }
@@ -20,8 +23,8 @@ export class Blog extends Component {
 function mapStateToProps(state) {
   return {
     posts: state.postsState.posts.byIds,
-    postsId: state.postsState.posts.allIds
+    postsId: state.postsState.posts.allIds,
   }
 }
 
-export default connect(mapStateToProps)(Blog);
+export default connect(mapStateToProps)(Blog)
