@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { deleteComment } from '../../../store/actions/index'
+import { findSubComments } from '../../../store/actions/index'
 import AddComment from '../../AddComment'
 import CommentListDisplay from '../index'
+import './style.scss'
 
 export class Comment extends Component {
 
@@ -17,8 +18,8 @@ export class Comment extends Component {
   }
 
   handleDeleteComment = () => {
-    const { postId, item: { id }, deleteComment } = this.props
-    deleteComment(postId, id)
+    const { postId, item: { id }, findSubComments, arrCommentsId } = this.props
+    findSubComments(postId, id, arrCommentsId)
   }
 
   handleAddComment = () => {
@@ -41,7 +42,7 @@ export class Comment extends Component {
   }
 
   render() {
-    const { item: { id, text }, arrCommentsId, postId } = this.props,
+    const { item: { id, text }, arrCommentsId, postId, state } = this.props,
       { addSubComment, idEditNow, hideSubComments } = this.state
     const hideClass = hideSubComments ? 'hide' : ''
 
@@ -65,7 +66,7 @@ export class Comment extends Component {
           }
           {!addSubComment && !idEditNow &&
           <div className='functional-buttons'>
-            <div className='close-button' onClick={this.handleDeleteComment}>Delete</div>
+            <div className='delete-button' onClick={this.handleDeleteComment}>Delete</div>
             <div className='edit-button' onClick={this.handleEditComment}>Edit</div>
             <div className='add-button' onClick={this.handleAddComment}>Add</div>
             <div className='hide-button' onClick={this.hideSubComments}>Hide</div>
@@ -85,7 +86,7 @@ export class Comment extends Component {
 }
 
 const mapDispatchToProps = {
-  deleteComment,
+  findSubComments,
 }
 
 export default connect(null, mapDispatchToProps)(Comment)

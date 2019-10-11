@@ -1,0 +1,41 @@
+.post {
+  .functional-buttons {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    cursor: pointer;
+    background: azure;
+  }
+
+  .delete-button,
+  .edit-button,
+  .add-button,
+  .hide-button {
+    display: block;
+    overflow: hidden;
+    width: 20px;
+    height: 20px;
+    text-indent: 999999px;
+  }
+
+  .delete-button {
+    background: url('../../../assets/delete-button.png') no-repeat;
+    background-size: 20px 20px;
+  }
+
+  .edit-button {
+    background: url('../../../assets/edit-icon.png') no-repeat;
+    background-size: 20px 20px;
+  }
+
+  .add-button {
+    background: url('../../../assets/add-button.png') no-repeat;
+    background-size: 20px 20px;
+  }
+
+  .hide-button {
+    background: url('../../../assets/chevron-down.png') no-repeat;
+    background-size: 20px 20px;
+  }
+
+}

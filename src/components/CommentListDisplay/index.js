@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import Comment from './Comment'
 
-export class CommmentListDisplay extends Component {
+export class CommentListDisplay extends Component {
 
   findSubComments = () => {
     const { arrCommentsId, parentId, comments } = this.props
@@ -38,4 +38,4 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps)(CommmentListDisplay)
+export default connect(mapStateToProps)(CommentListDisplay)

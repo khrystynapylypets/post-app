@@ -11,9 +11,9 @@ export class Blog extends Component {
       <div className='blog'>
         <div className='container'>
           {postsId && postsId.map((id) => (
-            <Post post={posts[id]}/>
+            <Post post={posts[ id ]}/>
           ))}
-          <AddPost />
+          <AddPost/>
         </div>
       </div>
     )

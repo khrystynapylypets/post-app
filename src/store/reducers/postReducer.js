@@ -8,6 +8,7 @@ import
 }
   from '../actions/actionsTypes'
 import postList from '../../data/post-list'
+import omit from 'lodash/omit'
 
 const initialState = {
   posts: {
@@ -61,16 +62,16 @@ export default function postsReducer(state = initialState, action) {
             [ action.postId ]: {
               ...state.posts.byIds[ action.postId ],
               comments: state.posts.byIds[ action.postId ].comments.filter((item) => (
-                item !== action.commentId
+                !action.arrOfCommentsId.includes(item)
               )),
             },
           },
         },
         comments: {
           ...state.comments,
-          byIds: deleteItemFromObj(state.comments.byIds, action.commentId),
+          byIds: omit(state.comments.byIds, action.arrOfCommentsId),
           allIds: state.comments.allIds.filter((item) => (
-            item !== action.commentId
+            !action.arrOfCommentsId.includes(item)
           )),
         },
       }
@@ -92,7 +93,7 @@ export default function postsReducer(state = initialState, action) {
       return {
         ...state,
         posts: {
-          byIds: deleteItemFromObj(state.posts.byIds, action.postId),
+          byIds: omit(state.posts.byIds, action.postId),
           allIds: state.posts.allIds.filter((item) => (
             item !== action.postId
           )),
@@ -118,10 +119,4 @@ export default function postsReducer(state = initialState, action) {
       return state
   }
 
-}
-
-function deleteItemFromObj(obj, property) {
-  const newObject = { ...obj }
-  delete newObject[ property ]
-  return newObject
 }

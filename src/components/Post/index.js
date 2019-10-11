@@ -32,9 +32,8 @@ export class Post extends Component {
             parentId={null}
           />
         </div>
-        <input
+        <button
           className='delete-post'
-          type='submit'
           value='Delete'
           onClick={this.handleDeletePost}
         />
