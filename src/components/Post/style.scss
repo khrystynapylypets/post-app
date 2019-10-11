@@ -1,4 +1,5 @@
 .post {
+  position: relative;
   margin-bottom: 40px;
   display: flex;
   flex-direction: column;
@@ -11,16 +12,20 @@
     .comment-item {
       margin-bottom: 15px;
       background: white;
-      padding: 5px 10px;
-      box-shadow: 9px -3px 8px rgba(0, 0, 0, 0.5);
+      box-shadow: 0 0 7px rgba(0, 0, 0, 0.2);
 
       &.hide {
         & + .comment-list {
           display: none;
         }
+
+        .hide-button {
+          transform: rotate(180deg);
+        }
       }
 
       p {
+        padding: 15px 10px;
         margin: 0;
       }
 
@@ -29,19 +34,12 @@
     .comment-list {
       max-height: none;
       padding: 0 0 0 15px;
-      overflow: hidden;
-    }
-
-    .functional-buttons {
-      display: flex;
-      justify-content: space-between;
-      padding: 10px 0;
-      cursor: pointer;
+      overflow: unset;
     }
   }
 
   .add-comment {
-    padding: 10px 0;
+    padding: 10px;
   }
 
   .post-content,
@@ -50,5 +48,20 @@
     padding: 15px;
     margin-bottom: 20px;
     background-color: aliceblue;
+  }
+
+  .delete-post {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    display: block;
+    overflow: hidden;
+    width: 25px;
+    height: 25px;
+    text-indent: 999999px;
+    background: url('../../assets/cancel-button.png') no-repeat;
+    background-size: 25px 25px;
+    border: 0;
+    cursor: pointer;
   }
 }

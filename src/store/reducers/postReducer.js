@@ -2,27 +2,29 @@ import
 {
   ADD_COMMENT,
   DELETE_COMMENT,
-  UPDATE_COMMENT
+  UPDATE_COMMENT,
+  DELETE_POST,
+  ADD_POST,
 }
-  from '../actions/actionsTypes';
-import postList from '../../data/post-list';
+  from '../actions/actionsTypes'
+import postList from '../../data/post-list'
+import omit from 'lodash/omit'
 
 const initialState = {
   posts: {
     byIds: {
-      ...postList.posts.byIds
+      ...postList.posts.byIds,
     },
-    allIds: [...postList.posts.allIds]
+    allIds: [ ...postList.posts.allIds ],
   },
   comments: {
     byIds: {
-      ...postList.comments.byIds
+      ...postList.comments.byIds,
     },
-    allIds: [...postList.comments.allIds]
-  }
-};
+    allIds: [ ...postList.comments.allIds ],
+  },
+}
 
-console.log(initialState);
 
 export default function postsReducer(state = initialState, action) {
   switch (action.type) {
@@ -32,70 +34,89 @@ export default function postsReducer(state = initialState, action) {
           ...state.posts,
           byIds: {
             ...state.posts.byIds,
-            [action.postId]: {
-              ...state.posts.byIds[action.postId],
-              comments: [...state.posts.byIds[action.postId].comments, action.commentId]
-            }
-          }
+            [ action.postId ]: {
+              ...state.posts.byIds[ action.postId ],
+              comments: [ ...state.posts.byIds[ action.postId ].comments, action.commentId ],
+            },
+          },
         },
         comments: {
           ...state.comments,
           byIds: {
             ...state.comments.byIds,
-            [action.commentId]: {
+            [ action.commentId ]: {
               id: action.commentId,
               text: action.text,
-              parentId: action.parentId
-            }
+              parentId: action.parentId,
+            },
           },
-          allIds: [...state.comments.allIds, action.commentId]
-        }
-      };
+          allIds: [ ...state.comments.allIds, action.commentId ],
+        },
+      }
     case DELETE_COMMENT:
       return {
         posts: {
           ...state.posts,
           byIds: {
             ...state.posts.byIds,
-            [action.postId]: {
-              ...state.posts.byIds[action.postId],
-              comments: state.posts.byIds[action.postId].comments.filter((item) => (
-                  item !== action.commentId
-              ))
-            }
-          }
+            [ action.postId ]: {
+              ...state.posts.byIds[ action.postId ],
+              comments: state.posts.byIds[ action.postId ].comments.filter((item) => (
+                !action.arrOfCommentsId.includes(item)
+              )),
+            },
+          },
         },
         comments: {
           ...state.comments,
-          byIds: deleteItemFromObj(state.comments.byIds, action.commentId),
+          byIds: omit(state.comments.byIds, action.arrOfCommentsId),
           allIds: state.comments.allIds.filter((item) => (
-              item !== action.commentId
-          ))
-        }
-      };
+            !action.arrOfCommentsId.includes(item)
+          )),
+        },
+      }
     case UPDATE_COMMENT:
       return {
-        posts: {
-          ...state.posts
-        },
+        ...state,
         comments: {
           ...state.comments,
           byIds: {
             ...state.comments.byIds,
-            [action.commentId]: {
-                ...state.comments.byIds[action.commentId],
-              text: action.newText
-            }
-          }
-        }
-      };
+            [ action.commentId ]: {
+              ...state.comments.byIds[ action.commentId ],
+              text: action.newText,
+            },
+          },
+        },
+      }
+    case DELETE_POST:
+      return {
+        ...state,
+        posts: {
+          byIds: omit(state.posts.byIds, action.postId),
+          allIds: state.posts.allIds.filter((item) => (
+            item !== action.postId
+          )),
+        },
+      }
+    case ADD_POST:
+      return {
+        ...state,
+        posts: {
+          byIds: {
+            ...state.posts.byIds,
+            [ action.postId ]: {
+              id: action.postId,
+              title: action.title,
+              description: action.description,
+              comments: [],
+            },
+          },
+          allIds: [ ...state.posts.allIds, action.postId ],
+        },
+      }
     default:
-      return state;
+      return state
   }
-}
 
-function deleteItemFromObj(obj, property) {
-  const newObject = {...obj};
-  delete newObject[property];
-  return newObject;
 }
