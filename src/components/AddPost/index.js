@@ -16,23 +16,15 @@ export class AddPost extends Component {
 
   postChange = (event) => {
     const { value, name } = event.target
-    switch (name) {
-      case 'title':
-        this.setState({
-          title: value,
-        })
-        break;
-      case 'description':
-        this.setState({
-          description: value,
-        })
-    }
+      this.setState({
+          [name]: value,
+      })
   }
 
   submitPost = () => {
     const { addPost } = this.props
     const { title, description } = this.state
-    if (!(title.length && description.length)) {
+    if (!title.length || !description.length) {
       this.setState({
         errorMessage: 'Please enter al least 1 character in two fields',
       })

@@ -1,49 +1,54 @@
-import React, { Component } from 'react'
+import React, {Component} from 'react'
 import AddComment from '../AddComment'
 import CommentListDisplay from '../CommentListDisplay'
 import './style.scss'
-import { connect } from 'react-redux'
-import { deletePost } from '../../store/actions'
+import {connect} from 'react-redux'
 
 export class Post extends Component {
+    findTopComments = () => {
+        const postId = this.props.match.params.id;
+        const {posts, comments} = this.props;
 
-  handleDeletePost = () => {
-    const { post: { id }, deletePost } = this.props
-    deletePost(id)
-  }
+        return posts[postId].comments.filter((id) => (
+            comments[ id ].parentId === null
+        ))
+    }
 
-  render() {
-    const { post: { id, title, description, comments } } = this.props
+    render() {
+        const postId = this.props.match.params.id;
+        const {posts} = this.props;
 
-    return (
-      <div className='post'>
-        <div className='post-content'>
-          <h1>{title}</h1>
-          <p>{description}</p>
-        </div>
-        <CommentListDisplay
-          arrCommentsId={comments}
-          postId={id}
-          parentId={null}
-        />
-        <div className='post-write-comment'>
-          <AddComment
-            postId={id}
-            parentId={null}
-          />
-        </div>
-        <button
-          className='delete-post'
-          value='Delete'
-          onClick={this.handleDeletePost}
-        />
-      </div>
-    )
-  }
+        const topLevelComments = this.findTopComments();
+        console.log(topLevelComments)
+        return (
+            <div className='container'>
+                <div className='post'>
+                    <div className='post-content'>
+                        <h1>{posts[postId].title}</h1>
+                        <p>{posts[postId].description}</p>
+                    </div>
+                    <CommentListDisplay
+                        topLevelComments={topLevelComments}
+                        arrCommentsId={posts[postId].comments}
+                        postId={postId}
+                    />
+                    <div className='post-write-comment'>
+                        <AddComment
+                            postId={postId}
+                            parentId={null}
+                        />
+                    </div>
+                </div>
+            </div>
+        )
+    }
 }
 
-const mapDispatchToProps = {
-  deletePost,
+function mapStateToProps(state) {
+    return {
+        posts: state.postsState.posts.byIds,
+        comments: state.postsState.comments.byIds,
+    }
 }
 
-export default connect(null, mapDispatchToProps)(Post)
+export default connect(mapStateToProps)(Post)

@@ -4,25 +4,20 @@ import Comment from './Comment'
 
 export class CommentListDisplay extends Component {
 
-  findSubComments = () => {
-    const { arrCommentsId, parentId, comments } = this.props
-    return arrCommentsId.filter((id) => (
-      comments[ id ].parentId === parentId
-    ))
-  }
-
   render() {
-    const arrayOfComments = this.findSubComments(),
-      { comments, arrCommentsId, postId } = this.props
+    //const arrayOfComments = this.findSubComments(),
+      const { arrCommentsId, postId, comments, topLevelComments } = this.props
+
     return (
       <>
-        {!!arrayOfComments.length &&
+        {!!topLevelComments.length &&
         <div className='comment-list'>
-          {arrayOfComments.map((id) => (
+          {arrCommentsId.map((id) => (
             <Comment
               item={comments[ id ]}
               arrCommentsId={arrCommentsId}
               postId={postId}
+              itemId = {id}
             />
           ))}
         </div>

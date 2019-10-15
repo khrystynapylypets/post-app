@@ -9,7 +9,7 @@ export class AddComment extends Component {
 
     const { value } = this.props
     this.state = {
-      commentValue: value ? value : '',
+      commentValue: value || '',
       errorMessage: '',
     }
   }
@@ -33,20 +33,15 @@ export class AddComment extends Component {
       return
     }
 
-
-    if (commentId === undefined) {
-      addComment(postId, parentId, commentValue)
-    }
-    else {
-      updateComment(postId, commentId, commentValue)
-    }
+    const action = commentId === undefined ? addComment : updateComment;
+    action(postId, parentId, commentValue);
 
     this.setState({
       commentValue: '',
       errorMessage: '',
     })
 
-    if (removeField !== undefined) {
+    if (removeField) {
       removeField()
     }
   }

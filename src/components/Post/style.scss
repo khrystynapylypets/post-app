@@ -6,8 +6,6 @@
   justify-content: space-between;
 
   .comment-list {
-    max-height: 300px;
-    overflow-y: auto;
 
     .comment-item {
       margin-bottom: 15px;
@@ -52,6 +50,7 @@
 
   .delete-post {
     position: absolute;
+    z-index: 4;
     top: 15px;
     right: 15px;
     display: block;
